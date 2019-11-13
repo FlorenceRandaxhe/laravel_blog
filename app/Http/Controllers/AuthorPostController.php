@@ -10,8 +10,18 @@ class AuthorPostController extends Controller
 {
     public function index(User $user)
     {
+        if ($user->id == auth()->id())
+        {
+            $posts = Post::where('owner_id', $user->id)
+                ->paginate(5);
+        } else
+        {
+            $posts = $user
+                ->posts()
+                ->published()
+                ->paginate(5);
+        }
         //return $user->load('posts');
-        $posts = $user->posts()->paginate(5);
         return view('posts.index', compact('user', 'posts'));
     }
 }

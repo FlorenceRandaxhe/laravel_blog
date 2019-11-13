@@ -27,6 +27,15 @@
             <label for="content">Modifier le contenu de l'article</label>
         </div>
         <div>
+            <label for="published_at_date">Modifier la date de publication</label>
+            <input type="date" id="published_at_date" name="published_at_date" value="{{$post->published_at->format('Y-m-d')}}">
+        </div>
+
+        <div>
+            <label for="published_at_time">Modifier l'heure de publication</label>
+            <input type="time" id="published_at_time" name="published_at_time" value="{{$post->published_at->format('h:i')}}">
+        </div>
+        <div>
             <textarea name="content" id="content" cols="30" rows="10">{{$post->content}}</textarea>
         </div>
 

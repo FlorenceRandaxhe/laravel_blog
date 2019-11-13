@@ -13,6 +13,7 @@ $factory->define(Post::class, function (Faker $faker) {
         'title' => $title,
         'slug' => Str::slug($title, '-'),
         'content' => $faker->paragraphs(3, true),
+        'published_at' => $faker->dateTimeBetween('-3 years', '3 months'),
         'owner_id' =>
         rand(1,2)>1?
             User::first()->id:

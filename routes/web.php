@@ -11,20 +11,21 @@
 |
 */
 
+Route::view('/about', 'about');
+Route::view('/contact', 'contact');
 
 Route::get('/', 'PostController@index');
 Route::get('/posts/create', 'PostController@create')->middleware('auth');
-Route::get('/posts/{post}', 'PostController@show'); // Route Model Binding
+Route::post('/posts', 'PostController@store')->middleware('auth');
+Route::get('/posts/{post}', 'PostController@show');
 Route::put('/posts/{post}', 'PostController@update')->middleware('auth');
 Route::delete('/posts/{post}', 'PostController@destroy')->middleware('can:delete,post');
-
-Route::post('/posts', 'PostController@store')->middleware('auth');
-
 Route::get('/posts/{post}/edit', 'PostController@edit')->middleware('can:update,post');
 
 
-Route::view('/about', 'about');
-Route::view('/contact', 'contact');
+Route::post('/comments', 'CommentController@store')->middleware('auth');
+Route::delete('/comments/{comment}', 'CommentController@destroy')->middleware('can:delete,comment');
+
 
 Route::get('/author/{user}/posts', 'AuthorPostController@index');
 

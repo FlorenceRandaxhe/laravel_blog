@@ -21,6 +21,16 @@
         </div>
 
         <div>
+            <label for="published_at_date">Date de publication</label>
+            <input type="date" id="published_at_date" name="published_at_date">
+        </div>
+
+        <div>
+            <label for="published_at_time">Heure de publication</label>
+            <input type="time" id="published_at_time" name="published_at_time">
+        </div>
+
+        <div>
             <label for="content">Contenu de l'article</label>
             <textarea name="content" id="content" cols="30" rows="10"></textarea>
         </div>

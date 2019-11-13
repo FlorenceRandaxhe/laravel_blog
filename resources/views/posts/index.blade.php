@@ -14,6 +14,7 @@
     @endcomponent
     <h1>Tous les articles</h1>
     <div>
+        <p>Nombre total d'articles : {{$posts->total()}}</p>
         @foreach($posts as $post)
         <article>
             <h2>
@@ -23,6 +24,9 @@
                 <p>
                     Un article posté par&nbsp;: <a href='/author/{{$post->author->id}}/posts'>{{$post->author->name}}</a>
                 </p>
+                <time datetime="{{$post->published_at}}">
+                    {{$post->published_at->diffForHumans()}}
+                </time>
             </div>
             <div>
                 <p>

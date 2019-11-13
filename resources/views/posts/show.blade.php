@@ -19,8 +19,8 @@
             <p>
                 Un article posté par&nbsp;: <a href='/author/{{$post->author->id}}/posts'>{{$post->author->name}}</a>
             </p>
-            <time datetime="{{$post->created_at}}">
-                {{$post->created_at->diffForHumans()}}
+            <time datetime="{{$post->published_at}}">
+                {{$post->published_at->diffForHumans()}}
             </time>
         </div>
         <div>
@@ -37,6 +37,41 @@
                 </div>
             </form>
         @endcan
+
+        <h2>Commentaires</h2>
+        <div>
+            @foreach($post->comments as $comment)
+                <div>
+                    {{--<p>{{$comment->author->name}}</p>--}}
+
+                    <p>{{$comment->content}}</p>
+
+                    @can('delete', $comment)
+                        <form action="/comments/{{$comment->id}}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button>
+                                Supprimer
+                            </button>
+                        </form>
+                    @endcan
+                </div>
+            @endforeach
+        </div>
+
+        @auth
+            <h2>Ajouter un commentaire</h2>
+            <form action="/comments" method="POST">
+                @csrf
+                <input type="hidden" name="post_id" value="{{$post->id}}">
+                <div>
+                    <label for="post_comment">Votre commentaire&nbsp;:</label>
+                    <textarea name="post_comment" id="post_comment"></textarea>
+                </div>
+
+                <button type="submit">Poster le commentaire</button>
+            </form>
+        @endauth
     </article>
 </div>
 </body>

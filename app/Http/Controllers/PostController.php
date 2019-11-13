@@ -15,9 +15,9 @@ class PostController extends Controller
         /**
          * render a list of a resource
          */
-        //return Auth::user();
-        //$posts = Post::all();
-        $posts = Post::with('author')->paginate(5);
+        $posts = Post::with('author')
+            ->orderBy('published_at')
+            ->paginate(5);
         //return $posts;
         return view('posts.index', [
             'posts' => $posts,
@@ -26,9 +26,9 @@ class PostController extends Controller
 
     public function show(Post $post)
     {
-        //$post = Post::findOrFail($id);
-        // Route Model Binding
-        return view('posts.show', compact('post'));
+        $post->load('author');
+        $comments = $post->comments;
+        return view('posts.show', compact('post', 'comments'));
     }
 
     public function create()
@@ -44,12 +44,14 @@ class PostController extends Controller
         /**
          * store the created resource
          */
-        //return request()->all();
         $post = new Post();
+        $post->slug = Str::slug(request('title'), '-');
         $post->title = request('title');
         $post->content = request('content');
-        $post->slug = Str::slug(request('title'), '-');
-        auth()->user()->post()->save($post);
+        $published_at =  request('published_at_date') .' '. request('published_at_time') .':00';
+        $post->published_at = $published_at;
+        //return $post;
+        auth()->user()->posts()->save($post);
         //$posts->owner_id = auth()->id();
 
         return redirect('/');
@@ -73,6 +75,8 @@ class PostController extends Controller
         $post->title = request('title');
         $post->content = request('content');
         $post->slug = Str::slug(request('title'), '-');
+        $published_at =  request('published_at_date') .' '. request('published_at_time') .':00';
+        $post->published_at = $published_at;
         $post->save();
 
         return redirect('/posts/' . $post->id);

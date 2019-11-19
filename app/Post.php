@@ -19,6 +19,11 @@ class Post extends Model
         static::addGlobalScope(new PublishedScope());
     }
 
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
     public function author()
     {
         return $this->belongsTo(User::class, 'owner_id');
@@ -28,5 +33,4 @@ class Post extends Model
     {
         return $this->hasMany(Comment::class, 'post_id');
     }
-
 }

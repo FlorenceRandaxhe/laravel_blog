@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PostStoreRequest;
 use App\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,7 +17,7 @@ class PostController extends Controller
          * render a list of a resource
          */
         $posts = Post::with('author')
-            ->orderBy('published_at')
+            ->orderByDesc('published_at')
             ->paginate(5);
         //return $posts;
         return view('posts.index', [
@@ -39,16 +40,21 @@ class PostController extends Controller
         return view('posts.create');
     }
 
-    public function store()
+    public function store(PostStoreRequest $request)
     {
         /**
          * store the created resource
          */
+        //$validatedData = $request->validated();
+        //return $validated;
         $post = new Post();
-        $post->slug = Str::slug(request('title'), '-');
-        $post->title = request('title');
-        $post->content = request('content');
-        $published_at =  request('published_at_date') .' '. request('published_at_time') .':00';
+        $post->slug = Str::slug(\request('title'), '-');
+        $post->title = \request('title');
+        $post->content = \request('content');
+        $published_at =  \request('published_at_date') ?? now()->format('Y-m-d')
+            .' '
+            . ($validatedData['published_at_time'] ?? \request('published_at_date') != null ? '00:00' : now()->format('H:i'))
+        .':00';
         $post->published_at = $published_at;
         //return $post;
         auth()->user()->posts()->save($post);
@@ -67,19 +73,22 @@ class PostController extends Controller
         return view('posts.edit', compact('post'));
     }
 
-    public function update(Post $post)
+    public function update(PostStoreRequest $post)
     {
         /**
          * update the edited resource
          */
-        $post->title = request('title');
-        $post->content = request('content');
-        $post->slug = Str::slug(request('title'), '-');
-        $published_at =  request('published_at_date') .' '. request('published_at_time') .':00';
+        $post->slug = Str::slug(\request('title'), '-');
+        $post->title = \request('title');
+        $post->content = \request('content');
+        $published_at =  \request('published_at_date') ?? now()->format('Y-m-d')
+            .' '
+            . ($validatedData['published_at_time'] ?? \request('published_at_date') != null ? '00:00' : now()->format('H:i'))
+            .':00';
         $post->published_at = $published_at;
         $post->save();
 
-        return redirect('/posts/' . $post->id);
+        return redirect('/posts/' . $post->slug);
     }
 
     public function destroy(Post $post)

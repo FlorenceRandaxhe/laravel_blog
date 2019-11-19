@@ -1,15 +1,5 @@
-<!doctype html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Ajouter un nouvelle article</title>
-</head>
-<body>
-@component('components.main-navigation')
-@endcomponent
+@extends('layouts.app')
+@section('content')
 <h1>Ajouter un nouvel article</h1>
 
 <div>
@@ -17,28 +7,47 @@
         @csrf
         <div>
             <label for="title">Titre de l'article</label>
-            <input type="text" name="title" id="title" placeholder="Titre">
+            <input class="form-control" type="text" name="title" id="title" placeholder="Titre" value="{{old('title')}}">
         </div>
+        @error('title')
+        <div class="alert alert-danger" role="alert">
+           {{ $message }}
+        </div>
+        @enderror
 
         <div>
             <label for="published_at_date">Date de publication</label>
-            <input type="date" id="published_at_date" name="published_at_date">
+            <input class="form-control" type="date" id="published_at_date" name="published_at_date">
         </div>
+        @error('published_at_date')
+        <div class="alert alert-danger" role="alert">
+            {{ $message }}
+        </div>
+        @enderror
 
         <div>
             <label for="published_at_time">Heure de publication</label>
-            <input type="time" id="published_at_time" name="published_at_time">
+            <input class="form-control" type="time" id="published_at_time" name="published_at_time">
         </div>
+        @error('published_at_time')
+        <div class="alert alert-danger" role="alert">
+            {{ $message }}
+        </div>
+        @enderror
 
         <div>
             <label for="content">Contenu de l'article</label>
-            <textarea name="content" id="content" cols="30" rows="10"></textarea>
+            <textarea class="form-control" name="content" id="content" cols="30" rows="10">{{old('content')}}</textarea>
         </div>
+        @error('content')
+        <div class="alert alert-danger" role="alert">
+            {{ $message }}
+        </div>
+        @enderror
 
         <div>
-            <button>Publier</button>
+            <button class="btn btn-dark">Publier</button>
         </div>
     </form>
 </div>
-</body>
-</html>
+@endsection

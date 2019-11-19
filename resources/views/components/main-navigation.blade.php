@@ -1,9 +1,7 @@
-<div role="navigation">
-    <a href="/">Accueil</a> -
-    <a href="/contact"> Contact</a> -
-    <a href="/about">A propos</a> -
-    <a href="/home">Login</a>
+<div class="navbar " role="navigation">
+    <a class="nav-link" href="/contact"> Contact</a>
+    <a class="nav-link" href="/about">A propos</a>
     @auth
-    - <a href="/posts/create">Ajouter un article</a>
+    <a class="nav-link" href="/posts/create">Ajouter un article</a>
     @endauth
 </div>

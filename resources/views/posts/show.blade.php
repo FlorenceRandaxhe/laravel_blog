@@ -1,17 +1,5 @@
-<!doctype html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="description"
-          content="Liste des articles sur c'est bon pour ce que tu as">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>{{$post->title}} - C'est bon pour ce que tu as</title>
-</head>
-<body>
-@component('components.main-navigation')
-@endcomponent
+@extends('layouts.app')
+@section('content')
 <h1>{{$post->title}}</h1>
 <div>
     <article>
@@ -33,7 +21,7 @@
                 @csrf
                 @method('DELETE')
                 <div>
-                    <button type="submit">Supprimer le post</button>
+                    <button class="btn btn-dark" type="submit">Supprimer le post</button>
                 </div>
             </form>
         @endcan
@@ -50,7 +38,7 @@
                         <form action="/comments/{{$comment->id}}" method="POST">
                             @csrf
                             @method('DELETE')
-                            <button>
+                            <button class="btn btn-dark">
                                 Supprimer
                             </button>
                         </form>
@@ -63,16 +51,20 @@
             <h2>Ajouter un commentaire</h2>
             <form action="/comments" method="POST">
                 @csrf
-                <input type="hidden" name="post_id" value="{{$post->id}}">
+                <input class="form-control" type="hidden" name="post_id" value="{{$post->id}}">
                 <div>
                     <label for="post_comment">Votre commentaire&nbsp;:</label>
-                    <textarea name="post_comment" id="post_comment"></textarea>
+                    <textarea class="form-control" name="post_comment" id="post_comment"></textarea>
                 </div>
+                @error('post_comment')
+                <div class="alert alert-danger" role="alert">
+                    {{ $message }}
+                </div>
+                @enderror
 
-                <button type="submit">Poster le commentaire</button>
+                <button class="btn btn-dark" type="submit">Poster le commentaire</button>
             </form>
         @endauth
     </article>
 </div>
-</body>
-</html>
+@endsection

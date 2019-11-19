@@ -1,24 +1,12 @@
-<!doctype html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="description"
-          content="Liste des articles sur c'est bon pour ce que tu as">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Article - C'est bon pour ce que tu as</title>
-</head>
-<body>
-    @component('components.main-navigation')
-    @endcomponent
+@extends('layouts.app')
+@section('content')
     <h1>Tous les articles</h1>
     <div>
         <p>Nombre total d'articles : {{$posts->total()}}</p>
         @foreach($posts as $post)
         <article>
             <h2>
-                <a href="/posts/{{$post->id}}">{{$post->title}}</a>
+                <a href="/posts/{{$post->slug}}">{{$post->title}}</a>
             </h2>
             <div>
                 <p>
@@ -37,12 +25,11 @@
 
         @can('update', $post)
             <div>
-                <a href="/posts/{{$post->id}}/edit">Modifier l'article</a>
+                <a href="/posts/{{$post->slug}}/edit">Modifier l'article</a>
             </div>
         @endcan
         @endforeach
 
             {{ $posts->links() }}
     </div>
-</body>
-</html>
+@endsection
